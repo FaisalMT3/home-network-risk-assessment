@@ -1,0 +1,41 @@
+# nmap 7.991  -sS -sV -p- --open -T4 --max-retries 2      2026-10-06
+# Addresses are private (RFC 1918). MAC addresses and host names removed.
+
+gateway (ISP fibre router, Huawei)        192.168.1.1
+  53/tcp    open  domain?
+  80/tcp    open  http
+  27998/tcp open  unknown
+  37443/tcp open  unknown        -> identified later as a UPnP responder
+  49652/tcp open  unknown        -> identified later as UPnP InternetGatewayDevice
+
+mesh node A                               192.168.1.9
+  53/tcp    open  domain   dnsmasq 2.78
+  80/tcp    open  http     lighttpd 1.4.20
+  8080/tcp  open  http     lighttpd 1.4.20
+
+mesh node B                               192.168.1.10
+  53/tcp    open  domain   dnsmasq 2.78
+  80/tcp    open  http     lighttpd 1.4.20
+  8080/tcp  open  http-proxy?
+
+mesh node C                               192.168.1.12
+  6100/tcp  open  unidentified
+
+mesh node D                               192.168.1.13
+  53/tcp    open  domain   dnsmasq 2.78
+  80/tcp    open  http     lighttpd 1.4.20
+  8080/tcp  open  http     lighttpd 1.4.20
+
+iOS device                                192.168.1.40
+  62078/tcp open  tcpwrapped (lockdownd) plus two ephemeral ports
+
+Android phone                             192.168.1.42
+  1716/tcp  open  device-pairing app, plus ephemeral ports
+  5555/tcp  open  adb            -> closed during the assessment
+
+workstation (scanner)                     192.168.1.16
+  no service reachable from the LAN
+
+# Wi-Fi access point, from a client scan on 2026-11-21 (iw scan dump)
+#   RSN: Version 1, Pairwise ciphers: CCMP, Authentication suites: PSK
+#   Capabilities: 16-PTKSA-RC 1-GTKSA-RC (0x000c)     -> no MFP-capable, no MFP-required bit
